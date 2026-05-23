@@ -50,7 +50,7 @@ GPIO10 ←→ Vibration Motor 1
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/Team404-AJCE/orthostride.git
+git clone https://github.com/zeus10-11/orthostride.git
 cd orthostride
 ```
 

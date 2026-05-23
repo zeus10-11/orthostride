@@ -1,8 +1,12 @@
 ---
-publishDate: 2026-05-23T00:00:00Z
+publishDate: 2026-05-17T00:00:00Z
+
 title: OrthoStride — Smart Rehabilitation Footwear for Real-Time Gait Monitoring
+
 excerpt: OrthoStride is a MYOSA-powered smart footwear system that monitors human gait in real time using IMU and FSR pressure sensors, delivering instant haptic feedback and clinical insights for rehabilitation patients.
+
 image: orthostride-cover.jpg
+
 tags:
   - Healthcare
   - Wearable
@@ -18,54 +22,49 @@ tags:
 
 ## Acknowledgements
 
-We, **Team 404**, thank our faculty mentor **Dr. Ranjitha Rajan** (Associate Professor, Amal Jyothi College of Engineering) for her constant guidance and support throughout the development of OrthoStride. We also thank the MYOSA Event 2026 organizers for providing a platform that bridges embedded innovation with real-world healthcare impact.
+We, **Team 404**, thank our faculty mentor **Dr. Ranjitha Rajan** (Associate Professor, Amal Jyothi College of Engineering) for her constant guidance and support throughout the development of OrthoStride. We also thank the **IEEE MYOSA Event 2026** organizers for providing a platform that bridges embedded innovation with real-world healthcare impact.
 
 ---
 
 ## Overview
 
-OrthoStride is a smart rehabilitation footwear system that monitors and analyzes human gait in real time. Human walking patterns are critical indicators of recovery progress in patients undergoing physiotherapy following strokes, fractures, or neurological disorders. 
+OrthoStride is a smart rehabilitation footwear system built on the **MYOSA platform** that monitors and analyzes human gait in real time. Human walking patterns are critical indicators of recovery progress in patients undergoing physiotherapy following strokes, fractures, or neurological disorders. Current rehabilitation relies on periodic clinical observation with no continuous or portable monitoring.
 
-**The Problem:** Current rehabilitation relies on periodic clinical observation with no continuous or portable monitoring, making it difficult for patients to receive timely feedback on gait corrections.
+OrthoStride addresses this gap by embedding motion sensing and pressure detection directly into footwear, enabling real-time detection of gait abnormalities and providing immediate, multi-channel feedback to patients and caregivers.
 
-**Our Solution:** OrthoStride addresses this gap by embedding motion sensing and pressure detection directly into footwear, enabling real-time detection of gait abnormalities and providing immediate, multi-channel feedback to patients and caregivers.
+**Key features:**
 
-**Who It's For:** Physiotherapy patients, stroke survivors, post-fracture rehabilitation, neurological disorder patients, and caregivers who need portable, continuous gait monitoring without clinical infrastructure.
-
-**Key Features:**
-
-* Real-time tilt angle, step detection, and gait symmetry analysis using MPU6050 IMU (100 Hz sampling)
-* Plantar pressure mapping across heel, arch, and toe zones using three FSR sensors
-* Instant multi-channel haptic feedback via three vibration motors embedded in footwear
-* Comprehensive analytics dashboard accessible via WiFi hotspot (192.168.4.1)
-* Fall detection with impact analysis and automatic caregiver alerts
-* Cadence, stride length, distance, and calorie estimation with live display
-* Calibration-based weight estimation with ±0.2 kg accuracy
-* Battery monitoring and energy-efficient operation on MYOSA Motherboard
-* Serial command interface for threshold configuration and data export
+- Real-time tilt angle, step detection, and gait symmetry analysis using the MPU6050 IMU
+- Plantar pressure mapping across heel, arch, and toe zones using FSR sensors
+- Instant multi-channel haptic feedback via vibration motors embedded in the footwear
+- Comprehensive analytics dashboard for doctors, physiotherapists, and caregivers
+- Wireless Bluetooth/WiFi connectivity for real-time data streaming
+- Fall detection with impact analysis and automatic alert system
+- Cadence, stride length, distance, and calorie estimation
+- Battery monitoring and energy-efficient operation
 
 ---
 
 ## Demo / Examples
 
-### **Images**
+### Images
 
 <p align="center">
   <img src="/orthostride-cover.jpg" width="800"><br/>
-  <i>OrthoStride smart footwear with MYOSA motherboard and multi-sensor array embedded in the insole</i>
+  <i>OrthoStride smart footwear with MYOSA board and multi-sensor array</i>
 </p>
 
 <p align="center">
   <img src="/orthostride-app-dashboard.jpg" width="800"><br/>
-  <i>OrthoStride Dashboard — Live display of tilt angle, step count, cadence, fall detection status, and real-time pressure heatmap across heel, arch, and toe zones</i>
+  <i>OrthoStride Dashboard — Live display of tilt angle, step count, cadence, fall detection, and pressure heatmap</i>
 </p>
 
 <p align="center">
   <img src="/orthostride-block-diagram.jpg" width="800"><br/>
-  <i>System Architecture: FSR Sensors + MPU6050 IMU → MYOSA Processing → Real-time Feature Extraction → Anomaly Detection → Multi-Modal Feedback & WiFi Dashboard</i>
+  <i>System Architecture: Sensors → MYOSA Board Processing → Real-time Feedback and Clinical Insights</i>
 </p>
 
-### **Videos**
+### Videos
 
 <video controls width="100%">
   <source src="/orthostride-demo.mp4" type="video/mp4">
@@ -75,378 +74,233 @@ OrthoStride is a smart rehabilitation footwear system that monitors and analyzes
 
 ## Features (Detailed)
 
-### **1. Real-Time Gait Analysis (MYOSA Motherboard + MPU6050 IMU)**
+### 1. Real-Time Gait Analysis (MYOSA Board + MPU6050 IMU)
 
-The MYOSA motherboard communicates with the MPU6050 IMU sensor via I2C protocol, continuously acquiring 3-axis accelerometer and gyroscope data at 100 Hz. On-board algorithms compute:
+The MYOSA Motherboard communicates with the MPU6050 IMU sensor via I2C protocol, continuously acquiring 3-axis accelerometer and gyroscope data at 100 Hz. On-board algorithms compute:
 
-- **Tilt Angle Calculation** — Using formula: `θ = arctan(Ax / √(Ay² + Az²))` to detect postural deviations
-- **Step Detection** — Peak detection on Z-axis acceleration with sliding-window threshold and 250 ms debounce
-- **Cadence Estimation** — Steps per minute calculated from inter-step intervals, updated continuously
-- **Fall Detection** — Combined free-fall detection (threshold: 3.0 m/s²) + impact magnitude analysis (threshold: 24.0 m/s²) with 1200 ms detection window
-- **Stability Index** — Variance-based metric computed over rolling window of gyroscope data
+- **Tilt Angle** — using the formula: `θ = arctan(Ax / √(Ay² + Az²))`
+- **Step Detection** — peak detection on the vertical acceleration signal (Z-axis) using a sliding-window threshold with debounce
+- **Cadence Estimation** — steps per minute calculated from inter-step intervals
+- **Fall Detection** — combined free-fall detection and impact analysis with configurable thresholds
+- **Stability Index** — variance-based metric computed over a rolling window of gyroscope data
 
-A **low-pass Butterworth filter** (cutoff: 5 Hz) is applied before feature extraction to suppress 50/60 Hz electrical noise and high-frequency sensor artifacts.
+A **low-pass Butterworth filter** (cutoff: 5 Hz) is applied before feature extraction to suppress noise and high-frequency sensor artifacts.
 
-### **2. Plantar Pressure Mapping & Weight Estimation (FSR Sensors)**
+### 2. Plantar Pressure Mapping and Weight Estimation (FSR Sensors)
 
-Three FSR (Force Sensitive Resistor) sensors placed at **heel**, **midfoot (arch)**, and **toe** regions measure real-time foot pressure distribution (12-bit ADC, 0–4095 range).
+Three FSR (Force Sensitive Resistor) sensors placed at **heel**, **midfoot (arch)**, and **toe** regions measure real-time foot pressure distribution:
 
-- **Calibration Mode** — Factory calibration with known weights (2, 3, 5, 7, 8, 10 kg) stored in EEPROM for accurate load estimation
-- **Dynamic Filtering** — 20-sample moving average with outlier rejection (threshold: 220 ADC units) and zero-baseline compensation
-- **Weight Estimation** — Piecewise linear interpolation from calibration curve to output weight in kg with ±0.2 kg accuracy
-- **Overload Detection** — Alerts when pressure exceeds doctor-set threshold (default: 8.0 kg) sustained for >700 ms
+- **Calibration Mode** — piecewise linear calibration with known weights (2–10 kg) stored in EEPROM for accurate load estimation
+- **Dynamic Filtering** — moving average (20 samples) with outlier rejection and zero-baseline compensation
+- **Weight Estimation** — interpolated from calibration curve, outputting weight in kg
+- **Overload Detection** — alert triggered when pressure exceeds doctor-set limit (default: 8.0 kg) for more than 700 ms
 
-This complementary dataset enables detection of abnormal loading patterns (over-pronation, toe-walking, limping, antalgic gait).
+This dataset enables detection of abnormal loading patterns such as over-pronation, toe-walking, and limping.
 
-### **3. Multi-Channel Feedback System**
+### 3. Multi-Channel Feedback System
 
-When a gait anomaly is detected, the system provides immediate multi-modal feedback to the patient and nearby caregivers:
+When a gait anomaly is detected, the system responds immediately:
 
-- **Vibration Motors (×3)** — Haptic feedback patterns vary by anomaly type:
-  - Overload: rapid pulses on affected zone
-  - Imbalance: alternating side-to-side patterns
-  - Fall risk: strong double-pulse alert
-  - Positioned at heel, arch, and toe for spatial localization
-- **LED Indicators** — Visual alerts for caregivers visible in room-lighting conditions
-- **Buzzer (5V)** — Audible alert (80 dB) triggered on unsafe gait events (fall-risk posture, free-fall detection)
-- **WiFi Dashboard** — Real-time metrics and control interface accessible via captive portal at 192.168.4.1 (no app installation needed)
+- **Vibration Motors (×3)** — haptic feedback patterns vary by anomaly type; positioned at heel, arch, and toe for spatial localization directly on the patient's foot
+- **LED Indicators** — visual alerts visible to nearby caregivers for imbalance or asymmetry events
+- **Buzzer** — audible alert triggered on unsafe gait events such as fall-risk posture or free-fall
+- **WiFi Captive Portal Dashboard** — live metrics and threshold configuration accessible from any browser at 192.168.4.1
 
-### **4. Analytics & Reporting Engine**
+### 4. Analytics and Reporting Engine
 
-Comprehensive gait metrics are computed in real time and logged for clinical review:
+Comprehensive gait metrics are computed in real time and logged per session:
 
-- **Step Count & Cadence** — Cumulative steps and SPM (steps per minute), updated every 10 Hz
-- **Distance Estimation** — Based on calibrated stride length (default: 0.70 m), accounting for pace variations
-- **Calorie Estimation** — Using Mifflin-St Jeor formula combined with activity duration and user weight
-- **Fall Events** — Timestamp, impact magnitude, and recovery time logged and exported
-- **Session Summary** — Auto-generated reports with statistics exportable via EXPORT command over serial
+- **Step Count and Cadence** — cumulative steps and steps per minute (SPM)
+- **Distance Estimation** — based on calibrated stride length (default: 0.70 m)
+- **Calorie Estimation** — using activity duration, weight, and cadence data
+- **Fall Event Log** — timestamp, impact magnitude, and recovery time for every fall
+- **Session Summary** — auto-generated report with full statistics exportable via serial interface
 
-Session data persists in EEPROM and can be exported for clinical analysis.
+### 5. Processing Pipeline
 
-### **5. Processing Pipeline**
-
-```
-┌─────────────────────────┐
-│ FSR Sensors + MPU6050   │
-│     (100 Hz input)      │
-└────────────┬────────────┘
-             ↓
-     ┌───────────────┐
-     │  MYOSA Board  │
-     │  Main Loop    │
-     │   (10 Hz)     │
-     └───────┬───────┘
-             ↓
-    ┌────────────────────┐
-    │  Low-Pass Filter   │
-    │  (Butterworth 5Hz) │
-    └────────┬───────────┘
-             ↓
-  ┌──────────────────────────┐
-  │ Feature Extraction       │
-  │ (step, fall, tilt,       │
-  │  pressure, cadence)      │
-  └────────┬─────────────────┘
-           ↓
-  ┌──────────────────────────┐
-  │ Anomaly Detection &      │
-  │ Thresholding             │
-  └────────┬─────────────────┘
-           ↓
-┌──────────────────────────────────┐
-│ Multi-Modal Feedback             │
-│ • Haptic (3 vibrators)           │
-│ • Visual (LED)                   │
-│ • Audible (Buzzer)               │
-│ • WiFi Dashboard                 │
-└──────────────────────────────────┘
-           ↓
-┌──────────────────────────────────┐
-│ Session Logging & Analytics      │
-│ (EEPROM storage, serial export)  │
-└──────────────────────────────────┘
+```plaintext
+FSR Sensors + MPU6050 IMU
+        ↓
+MYOSA Board Main Loop (10 Hz)
+        ↓
+Low-Pass Filter (5 Hz cutoff)
+        ↓
+Feature Extraction (step, fall, tilt, pressure)
+        ↓
+Anomaly Detection and Thresholding
+        ↓
+Haptic / LED / Buzzer / WiFi Dashboard Alerts
+        ↓
+Session Logging and Analytics Export
 ```
 
 ---
 
 ## Usage Instructions
 
-### **Hardware Setup**
+### Hardware Setup
 
-1. **Wiring (MYOSA Motherboard)**
-   - FSR Sensor (Heel) → A0 (ADC input)
-   - FSR Sensor (Arch) → A1 (ADC input)
-   - FSR Sensor (Toe) → A2 (ADC input)
-   - Battery Monitor → A3 (ADC input)
-   - MPU6050 SDA → MYOSA I2C SDA pin
-   - MPU6050 SCL → MYOSA I2C SCL pin
-   - Vibration Motor 1 → GPIO Pin 2
-   - Vibration Motor 2 → GPIO Pin 3
-   - Vibration Motor 3 → GPIO Pin 4
-   - LED Indicators → GPIO Pins 5, 6
-   - Buzzer → GPIO Pin 7
-   - Ground and 3.3V power distribution to all components
-
-2. **Sensor Placement**
-   - Place FSR sensors inside the insole at heel, arch (midfoot), and toe positions
-   - Mount MPU6050 on the top/side of footwear for optimal motion sensing without interference
-   - Secure vibration motors at corresponding foot zones (one near heel, one near arch, one near toe)
-   - Ensure all connections are shielded and protected from moisture
-
-3. **Power**
-   - Connect 1000 mAh Li-Po battery to MYOSA motherboard
-   - Enable battery charging circuit; typical charge time: 1.5 hours
-   - Battery provides approximately 4–6 hours of continuous monitoring
-
-### **Firmware Installation**
-
-1. **Prerequisites**
-   ```bash
-   pip install esptool pyserial
-   ```
-
-2. **Compile Firmware**
-   - Open `firmware/OrthoStride_Integrated_MYOSA.ino` in Arduino IDE or PlatformIO
-   - Add required libraries via Library Manager:
-     - Adafruit_MPU6050 v2.2.0
-     - Adafruit_Sensor v1.1.4
-   - Select board: MYOSA Motherboard / ESP32-S3 variant
-   - Compile and verify (no errors)
-
-3. **Flash Firmware**
-   ```bash
-   python -m esptool --chip esp32s3 --port COM3 write_flash 0x0000 OrthoStride_Integrated_MYOSA.bin
-   ```
-   Replace `COM3` with your board's COM port (Windows) or `/dev/ttyUSB0` (Linux).
-
-4. **Calibration (First Run)**
-   - Open Serial Monitor at 115200 baud
-   - Device will prompt: "Enter calibration mode? (Y/N)"
-   - Press 'Y' and follow on-screen instructions
-   - Sequentially place known weights on the foot sensor: 2 kg, 3 kg, 5 kg, 7 kg, 8 kg, 10 kg
-   - Wait for stabilization (~5 seconds) between each weight
-   - Device stores calibration curve in EEPROM automatically
-
-### **Starting a Monitoring Session**
-
-1. **Serial Monitor Interface**
-   ```bash
-   python -m serial.tools.miniterm COM3 115200
-   ```
-   View real-time sensor data, step counts, fall alerts, and debug information.
-
-2. **WiFi Hotspot & Dashboard**
-   - Device automatically broadcasts: `OrthoStride-XXXX` (where XXXX is device ID)
-   - On your phone/laptop, connect to this WiFi network (password: orthostride)
-   - Open browser to `http://192.168.4.1`
-   - View live metrics: tilt angle, cadence, step count, pressure distribution
-   - No mobile app installation required — works on any browser
-
-3. **Bluetooth Streaming** (Optional, for future app integration)
-   - Enable Bluetooth pairing from device setup menu
-   - Pair with smartphone via standard Bluetooth
-   - Stream live gait data to future companion app
-
-### **Configuration Commands (Serial Interface)**
-
-Type these commands in the serial monitor and press Enter:
+Wiring (MYOSA Board):
 
 ```plaintext
-# Set maximum safe weight (kg) — triggers haptic alert if exceeded for >700ms
-SETWEIGHT:8.0
-
-# Configure step detection thresholds (high threshold, low threshold)
-STEPTHR:1.2,0.45
-
-# Enter calibration mode interactively
-CALIBRATE
-
-# Reset session counters (steps, distance, calories, falls) to zero
-RESET
-
-# Print session summary and export to SD card (if available)
-EXPORT
-
-# Display help menu with all available commands
-HELP
+GPIO3  (ADC) ← FSR Sensor (heel)
+GPIO4  (ADC) ← Battery Monitor
+GPIO6  (SDA) ← MPU6050 I2C Data
+GPIO7  (SCL) ← MPU6050 I2C Clock
+GPIO8        → Vibration Motor 3 (toe)
+GPIO9        → Vibration Motor 2 (arch)
+GPIO10       → Vibration Motor 1 (heel)
+3.3V, GND   → Common power rail
 ```
 
-**Example Session Flow:**
+Sensor Placement:
+- Place FSR sensors inside the insole at heel, arch, and toe positions
+- Mount MPU6050 on top of the footwear for optimal motion capture
+- Secure vibration motors at corresponding foot zones for haptic feedback
+
+### Firmware Installation
+
+Install dependencies:
+
+```bash
+pip install esptool pyserial
+```
+
+Flash firmware:
+
+```bash
+python -m esptool --chip esp32c3 --port COM3 write_flash 0x0000 OrthoStride_Integrated_ESP32C3.bin
+```
+
+Replace COM3 with your port (/dev/ttyUSB0 on Linux/Mac).
+
+### Calibration (First Run)
+
+```bash
+python -m serial.tools.miniterm COM3 115200
+```
+
+Follow on-screen prompts and place known weights (2, 3, 5, 7, 8, 10 kg) on the foot sensor. Calibration saves automatically to EEPROM.
+
+### Starting a Monitoring Session
+
+Via Serial Monitor:
+
+```bash
+python -m serial.tools.miniterm COM3 115200
+```
+
+Via WiFi Dashboard:
+
 ```plaintext
-> SETWEIGHT:7.5
-✓ Weight limit set to 7.5 kg
+1. Power on the device
+2. Connect to WiFi: OrthoStride-XXXX
+3. Open browser → http://192.168.4.1
+4. View live gait metrics and configure thresholds
+```
 
-> STEPTHR:1.15,0.50
-✓ Step thresholds updated
+### Serial Configuration Commands
 
-> RESET
-✓ Session cleared — step counter: 0, fall count: 0
-
-[10 minutes of walking...]
-
-> EXPORT
-Session Summary:
-  Steps: 847
-  Cadence: 105 SPM
-  Distance: 592 m
-  Calories: 28 kcal
-  Falls: 0
-  Overload Events: 3
-  Session Duration: 10:23 min
-✓ Data exported to serial + EEPROM
+```plaintext
+SETWEIGHT:8.0     → Set overload weight limit in kg
+STEPTHR:1.2,0.45  → Set step detection high/low thresholds
+CALIBRATE         → Enter FSR calibration mode
+RESET             → Reset current session data
+EXPORT            → Print session summary to serial output
 ```
 
 ---
 
 ## Tech Stack
 
-* **MYOSA Motherboard** — Core processing unit (microcontroller + WiFi/Bluetooth chip)
-* **MPU6050 IMU** — 3-axis accelerometer (±8G range) + 3-axis gyroscope (±500°/s) via I2C
-* **FSR (Force Sensitive Resistor) Sensors ×3** — Analog pressure sensing at heel, arch, toe (12-bit ADC)
-* **Embedded C / Arduino Framework** — Firmware for real-time signal processing and gait analysis
-* **EEPROM Storage** — On-board non-volatile memory for calibration curves and session data
-* **WiFi 802.11b/g/n** — Real-time dashboard and wireless data streaming
-* **Bluetooth 5.0** — Future mobile app connectivity and remote monitoring
-* **Haptic Feedback System** — Vibration motors for patient alerts
-* **Li-Po Battery Management** — Rechargeable 1000 mAh power source with integrated charging circuit
+- **MYOSA Motherboard** — Central processing unit running all gait algorithms
+- **MPU6050 IMU** — 3-axis accelerometer and gyroscope via I2C at 100 Hz
+- **FSR Sensors (×3)** — Analog force-sensitive resistors for plantar pressure
+- **Embedded C / Arduino** — Firmware for real-time signal processing and gait analysis
+- **EEPROM** — On-board calibration and session data persistence
+- **WiFi / Bluetooth** — Wireless data streaming and captive portal dashboard
+- **Vibration Motors (×3)** — Haptic feedback actuators for spatial anomaly alerts
+- **Li-Po Battery (1000 mAh)** — Rechargeable portable power with monitoring circuit
 
 ---
 
 ## Requirements / Installation
 
-### **Firmware Dependencies**
+### Firmware Dependencies
 
 ```bash
 pip install esptool pyserial
 ```
 
-### **Arduino Libraries** (Install via Arduino IDE → Sketch → Include Library → Manage Libraries)
+### Arduino Libraries
 
+```plaintext
+Adafruit_MPU6050 v2.2.0
+Adafruit_Sensor v1.1.4
+Wire          (built-in)
+WiFi          (built-in)
+WebServer     (built-in)
+DNSServer     (built-in)
 ```
-- Adafruit_MPU6050 v2.2.0      (for IMU communication)
-- Adafruit_Sensor v1.1.4        (sensor abstraction layer)
-- Wire (built-in)               (I2C communication)
-- WiFi (built-in)               (WiFi hotspot)
-- WebServer (built-in)          (HTTP dashboard)
-- DNSServer (built-in)          (captive portal)
-```
 
-### **Hardware Bill of Materials**
+Install via Arduino IDE: Sketch → Include Library → Manage Libraries
 
-| Component | Quantity | Part Number / Source | Purpose |
-|-----------|----------|----------------------|---------|
-| MYOSA Motherboard | 1 | MYOSA Mini IoT Kit | Central processing & WiFi/BT |
-| MPU6050 IMU Module | 1 | Included in MYOSA Kit | Accelerometer + Gyroscope |
-| FSR Sensors (Model 402) | 3 | Generic / Sparkfun | Plantar pressure at 3 zones |
-| Vibration Motors (3V) | 3 | Generic 1027 motor | Haptic feedback actuators |
-| Li-Po Battery (1000 mAh) | 1 | 3.7V single cell | Portable power |
-| LED Indicators (3mm) | 2 | Any color | Visual caregiver alerts |
-| Buzzer (5V piezo) | 1 | Generic 85 dB | Audible alerts |
-| Resistors (10 kΩ, 1/4W) | 3 | Generic 1/4W carbon film | FSR biasing & ADC circuit |
-| Micro USB Cable | 1 | Standard | Charging & serial connection |
-| Insole / Shoe Insert | 1 | EVA foam | Sensor mounting substrate |
+### Hardware Components
 
-### **Recommended Development Environment**
-
-- **Arduino IDE 1.8.13+** or **PlatformIO** (extension for VS Code)
-- **Python 3.8+** with pip
-- **Serial Terminal** (built-in miniterm or Putty)
-- **Web Browser** (any modern browser for dashboard)
+| Component | Quantity | Purpose |
+|---|---|---|
+| MYOSA Motherboard | 1 | Main processing unit |
+| MPU6050 IMU Module | 1 | Accelerometer and gyroscope |
+| FSR Sensors | 3 | Heel, arch, toe pressure |
+| Vibration Motors | 3 | Haptic feedback actuators |
+| Li-Po Battery 1000 mAh | 1 | Portable power supply |
+| Resistors 10 kΩ | 3 | ADC voltage divider circuit |
+| LED Indicators | 2 | Visual caregiver alerts |
+| Buzzer 5V | 1 | Audio alarm output |
 
 ---
 
 ## File Structure
 
-```
+```plaintext
 /orthostride
-├── orthostride.md                          # MYOSA submission document
-├── README.md                               # GitHub project overview
-├── orthostride-cover.jpg                   # Project cover image
-├── orthostride-app-dashboard.jpg           # Dashboard interface screenshot
-├── orthostride-block-diagram.jpg           # System architecture diagram
-├── orthostride-demo.mp4                    # Demo video
-│
-├── firmware/
-│   ├── OrthoStride_Integrated_MYOSA.ino    # Main integrated firmware (primary)
-│   ├── Footwear_Step_Fall_Detection.ino    # Step & fall detection module
-│   ├── Battery_Percentage_Captive_Portal.ino
-│   ├── fsr_basic_test.ino                  # FSR sensor basic test
-│   ├── fsr_diagnostic_test.ino             # FSR advanced diagnostics
-│   ├── FSR_NoCalibration_Direct.ino        # Raw ADC output test
-│   ├── FSR_Weight_Calibration.ino          # Calibration utility
-│   └── Gradual_Vibration_Control.ino       # Vibration pattern testing
-│
-└── assets/
-    └── docs/
-        ├── ASSEMBLY_GUIDE.md               # Hardware assembly instructions
-        ├── CALIBRATION_GUIDE.md            # Step-by-step calibration
-        └── TROUBLESHOOTING.md              # Common issues & solutions
+  ├── orthostride.md
+  ├── README.md
+  ├── orthostride-cover.jpg
+  ├── orthostride-app-dashboard.jpg
+  ├── orthostride-block-diagram.jpg
+  ├── orthostride-demo.mp4
+  └── firmware/
+      ├── OrthoStride_Integrated_ESP32C3.ino
+      ├── Footwear_Step_Fall_Detection.ino
+      ├── Battery_Percentage_Captive_Portal.ino
+      ├── fsr_basic_test.ino
+      ├── fsr_diagnostic_test.ino
+      ├── FSR_NoCalibration_Direct.ino
+      ├── FSR_Weight_Calibration.ino
+      └── Gradual_Vibration_Control.ino
 ```
 
 ---
 
 ## License
 
-This project is submitted under the **MIT License**. All hardware designs, firmware code, and documentation are open-source and may be freely used, modified, and distributed with attribution to Team 404, Amal Jyothi College of Engineering.
-
-```
-MIT License
-
-Copyright (c) 2026 Team 404 - Amal Jyothi College of Engineering
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
+This project is released under the **MIT License**. All hardware designs, firmware, and documentation are open-source and may be freely used, modified, and distributed with attribution to Team 404, Amal Jyothi College of Engineering, Kanjirappally, Kerala, India.
 
 ---
 
 ## Contribution Notes
 
-We welcome contributions from the open-source and rehabilitation engineering community. To contribute:
+To contribute to OrthoStride:
 
-1. **Fork** this repository on GitHub
-2. **Create a feature branch** (`git checkout -b feature/amazing-feature`)
-3. **Commit your changes** with clear, descriptive messages
-4. **Push to your fork** and open a **Pull Request** with detailed description of changes
-5. **Request review** from team leads
+1. Fork this repository
+2. Create a feature branch: `git checkout -b feature/your-feature`
+3. Commit your changes with clear messages
+4. Open a Pull Request with a description of what you changed and why
 
-### **Areas for Contribution**
-
-- **AI/ML-based Gait Classification** — Integrate machine learning models for improved anomaly detection and personalization
-- **Sensor Fusion** — Add complementary sensors (barometer for stairs/elevation, temperature compensation, humidity)
-- **Mobile App** — Develop cross-platform companion app (Flutter/React Native) for patient/caregiver monitoring
-- **Cloud Integration** — Enable cloud storage for longitudinal patient data analytics and telehealth
-- **UI/UX Improvements** — Enhance captive portal dashboard with responsive design and accessibility features
-- **Documentation** — Expand troubleshooting guides, video tutorials, and hardware assembly instructions
-- **Performance Optimization** — Reduce power consumption for extended battery life
-- **Additional Gait Modes** — Support stair climbing, ramp walking, sit-to-stand transitions
-
-### **Reporting Issues & Suggestions**
-
-- Open a GitHub issue with clear title and detailed description
-- Include hardware configuration, firmware version, and reproduction steps
-- Attach log files, error screenshots, or serial output for debugging
-- For security vulnerabilities, please email team404@ajce.in
+For bug reports, open an issue and include your hardware setup, firmware version, and any serial log output.
 
 ---
 
 **Team 404 — Amal Jyothi College of Engineering, Kanjirappally, Kerala, India**
-
-**IEEE MYOSA Event 2026 — Smart Rehabilitation Wearable System**
-
-Contact: geomathew1212@gmail.com | Faculty Advisor: Dr. Ranjitha Rajan
+IEEE MYOSA Event 2026

@@ -61,7 +61,7 @@ OrthoStride addresses this gap by embedding motion sensing and pressure detectio
 
 <p align="center">
   <img src="/orthostride-block-diagram.jpg" width="800"><br/>
-  <i>System Architecture: Sensors → MYOSA Board Processing → Real-time Feedback and Clinical Insights</i>
+  <i>System Architecture: Sensors → MYOSA Board → Real-time Feedback and Clinical Insights</i>
 </p>
 
 ### Videos
@@ -154,6 +154,7 @@ GPIO10       → Vibration Motor 1 (heel)
 ```
 
 Sensor Placement:
+
 - Place FSR sensors inside the insole at heel, arch, and toe positions
 - Mount MPU6050 on top of the footwear for optimal motion capture
 - Secure vibration motors at corresponding foot zones for haptic feedback

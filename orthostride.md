@@ -66,6 +66,14 @@ OrthoStride addresses this gap by embedding motion sensing and pressure detectio
 
 ### Videos
 
+**Presentation**
+
+<video controls width="100%">
+  <source src="/orthostride-presentation.mp4" type="video/mp4">
+</video>
+
+**Demonstration**
+
 <video controls width="100%">
   <source src="/orthostride-demo.mp4" type="video/mp4">
 </video>
@@ -271,6 +279,7 @@ Install via Arduino IDE: Sketch → Include Library → Manage Libraries
   ├── orthostride-app-dashboard.jpg
   ├── orthostride-block-diagram.jpg
   ├── orthostride-demo.mp4
+  ├── orthostride-presentation.mp4
   └── firmware/
       ├── OrthoStride_Integrated_ESP32C3.ino
       ├── Footwear_Step_Fall_Detection.ino

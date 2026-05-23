@@ -255,7 +255,7 @@ copies or substantial portions of the Software.
 
 - **Team:** Team 404, Amal Jyothi College of Engineering
 - **Email:** geomathew1212@gmail.com
-- **GitHub Issues:** [Report bugs or suggest features](https://github.com/Team404-AJCE/orthostride/issues)
+- **GitHub Issues:** [Report bugs or suggest features](https://github.com/zeus10-11/orthostride)
 - **Mentor:** Dr. Ranjitha Rajan, Associate Professor
 
 ## 🎯 Project Goals

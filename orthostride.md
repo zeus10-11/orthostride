@@ -5,7 +5,7 @@ title: OrthoStride — Smart Rehabilitation Footwear for Real-Time Gait Monitori
 
 excerpt: OrthoStride is a MYOSA-powered smart footwear system that monitors human gait in real time using IMU and FSR pressure sensors, delivering instant haptic feedback and clinical insights for rehabilitation patients.
 
-image: orthostride-cover.jpg
+image: orthostride-cover.jpeg
 
 tags:
   - Healthcare
@@ -50,9 +50,9 @@ OrthoStride addresses this gap by embedding motion sensing and pressure detectio
 ### Images
 
 <p align="center">
-  <img src="/orthostride-cover.jpg" width="800"><br/>
-  <img src="/orthostride-cover.jpg" width="800"><br/>
-  <img src="/orthostride-cover.jpg" width="800"><br/>
+  <img src="/orthostride-cover.jpeg" width="800"><br/>
+  <img src="/orthostride-cover.jpeg" width="800"><br/>
+  <img src="/orthostride-cover.jpeg" width="800"><br/>
   <i>OrthoStride smart footwear with MYOSA board and multi-sensor array</i>
 </p>
 

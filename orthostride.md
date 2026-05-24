@@ -51,8 +51,8 @@ OrthoStride addresses this gap by embedding motion sensing and pressure detectio
 
 <p align="center">
   <img src="/orthostride-cover.jpg" width="800"><br/>
-  <img src="/orthostride-cover.jpg" width="800"><br/>
-  <img src="/orthostride-cover.jpg" width="800"><br/>
+  <img src="/orthostride-cover2.jpg" width="800"><br/>
+  <img src="/orthostride-cover3.jpg" width="800"><br/>
   <i>OrthoStride smart footwear with MYOSA board and multi-sensor array</i>
 </p>
 

@@ -57,9 +57,9 @@ OrthoStride addresses this gap by embedding motion sensing and pressure detectio
 </p>
 
 <p align="center">
-  <img src="/orthostride-app-dashboard.jpg" width="800"><br/>
-  <img src="/orthostride-dashboard-2.jpg" width="800"><br/>
-  <img src="/orthostride-dashboard-3.jpg" width="800"><br/>
+  <img src="/orthostride-app-dashboard.jpeg" width="800"><br/>
+  <img src="/orthostride-dashboard-2.jpeg" width="800"><br/>
+  <img src="/orthostride-dashboard-3.jpeg" width="800"><br/>
   <i>OrthoStride Dashboard — Live display of tilt angle, step count, cadence, fall detection, and pressure heatmap</i>
 </p>
 
